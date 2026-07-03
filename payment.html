@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Nextel Connect - Secure Activation Portal</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:#f4f6f9;
+  font-family:'Poppins',sans-serif;
+  color:#111827;
+  min-height:100vh;
+}
+
+:root{
+  --green:#1a7a4a;
+  --gold:#C9A84C;
+  --muted:#6b7280;
+}
+
+#payPage{
+  min-height:100vh;
+  padding:40px 20px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.topbar{
+  width:100%;
+  max-width:480px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:32px;
+}
+.topbar-brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:15px;
+  font-weight:700;
+  color:#111827;
+}
+.topbar-brand img{height:32px;}
+.topbar-secure{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--green);
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-radius:999px;
+  padding:6px 14px;
+}
+
+.pay-title{
+  font-size:1.7rem;
+  font-weight:800;
+  text-align:center;
+  color:#111827;
+  line-height:1.2;
+  margin-bottom:6px;
+}
+.pay-sub{
+  font-size:14px;
+  color:var(--muted);
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.pay-card{
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:20px;
+  padding:24px 22px;
+  box-shadow:0 2px 16px rgba(0,0,0,0.06);
+}
+
+.card-heading{
+  font-size:15px;
+  font-weight:700;
+  color:#111827;
+  margin-bottom:18px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.detail-card{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:10px;
+}
+.detail-label{
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:4px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+.detail-value{
+  font-size:16px;
+  font-weight:700;
+  color:#111827;
+}
+.detail-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.acct-number{
+  font-size:26px;
+  font-weight:800;
+  color:var(--green);
+  letter-spacing:2px;
+}
+.copy-btn{
+  background:var(--green);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:9px 20px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'Poppins',sans-serif;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:0.2s;
+}
+.copy-btn:active{transform:scale(0.96);}
+.copy-btn.copied{background:#059669;}
+
+.done-note{
+  margin-top:18px;
+  padding:14px 16px;
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-radius:14px;
+  font-size:13px;
+  color:#166534;
+  line-height:1.6;
+  text-align:center;
+}
+.done-note strong{color:#15803d;}
+
+.contact-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
+}
+.contact-btn{
+  height:50px;
+  border:none;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:'Poppins',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  color:#fff;
+  transition:0.2s;
+}
+.contact-btn:active{transform:scale(0.97);}
+.contact-btn.whatsapp{background:#25D366;}
+.contact-btn.telegram{background:#229ED9;}
+.contact-btn svg{width:18px;height:18px;fill:#fff;}
+
+.pay-footer{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:20px;
+  line-height:1.6;
+  max-width:400px;
+}
+</style>
+</head>
+<body>
+
+<div id="payPage">
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <img src="assets/logo.png" alt="Nextel Connect">
+      Nextel Connect
+    </div>
+    <div class="topbar-secure">
+      🔒 Secured
+    </div>
+  </div>
+
+  <h1 class="pay-title">Complete Your Payment</h1>
+  <p class="pay-sub" id="paySubTitle">Starter Package &mdash; &#8358;10,000</p>
+
+  <div class="pay-card">
+
+    <div class="card-heading">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM12 1L2 6v2h20V6z" fill="#1a7a4a"/>
+      </svg>
+      Transfer to this account
+    </div>
+
+    <!-- BANK NAME -->
+    <div class="detail-card">
+      <div class="detail-label">Bank Name</div>
+      <div class="detail-value" id="bankNameVal">Loading…</div>
+    </div>
+
+    <!-- ACCOUNT NAME -->
+    <div class="detail-card">
+      <div class="detail-label">Account Name</div>
+      <div class="detail-value" id="accountNameVal">Loading…</div>
+    </div>
+
+    <!-- ACCOUNT NUMBER -->
+    <div class="detail-card">
+      <div class="detail-row">
+        <div>
+          <div class="detail-label">Account Number</div>
+          <div class="acct-number" id="accountNum">—</div>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyAccount()">Copy</button>
+      </div>
+    </div>
+
+    <div class="done-note">
+      <strong>After payment, send your proof of transfer</strong> to our support team and your account will be activated within <strong>5–15 minutes</strong>.
+    </div>
+
+    <div style="margin-top:16px;">
+      <button class="contact-btn telegram" style="width:100%;" onclick="contactTelegram()">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21.946 2.68a1.5 1.5 0 0 0-1.531-.21L2.33 9.607a1.5 1.5 0 0 0 .104 2.803l4.02 1.342 1.97 6.072a1 1 0 0 0 1.7.377l2.44-2.55 4.69 3.49a1.5 1.5 0 0 0 2.35-1.01L22 4.156a1.5 1.5 0 0 0-.054-1.476zM10 13.5l-1.3 3.9-1.3-4 8.6-5.9L10 13.5z" fill="#fff"/>
+        </svg>
+        Send Proof on Telegram
+      </button>
+    </div>
+
+  </div>
+
+  <p class="pay-footer">
+    By completing this payment, you agree to Nextel's Terms of Service and Privacy Policy.
+    Your account will be activated within minutes of payment confirmation.
+  </p>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const app = initializeApp({
+    apiKey:            "AIzaSyDrnmtx0LkfMKytzTKQZwXCg1JKZXiJmtU",
+    authDomain:        "glamour-28049.firebaseapp.com",
+    projectId:         "glamour-28049",
+    storageBucket:     "glamour-28049.firebasestorage.app",
+    messagingSenderId: "22177815395",
+    appId:             "1:22177815395:web:2ca7caa2b1626299675156"
+  });
+  const db = getFirestore(app, "(default)");
+
+  // Load config from Firestore
+  try {
+    const snap = await getDoc(doc(db, "account", "nextelbobby"));
+    if (snap.exists()) {
+      const d = snap.data();
+      if (d.telegramLink)  window._tgLink = d.telegramLink;
+      document.getElementById("bankNameVal").textContent   = d.bankName     || "—";
+      document.getElementById("accountNameVal").textContent = d.accountName  || "—";
+      document.getElementById("accountNum").textContent    = d.accountNumber || "—";
+      window._nxtAccountNumber = d.accountNumber || "";
+    }
+  } catch(_) {}
+
+  // Populate plan details from sessionStorage
+  try {
+    const session = JSON.parse(sessionStorage.getItem("nxt_payment") || "{}");
+    if (session.planName && session.amount) {
+      const fmt = "₦" + Number(session.amount).toLocaleString("en-NG");
+      document.getElementById("paySubTitle").textContent = session.planName + " — " + fmt;
+    }
+  } catch(_) {}
+
+  window.copyAccount = function() {
+    const num = document.getElementById("accountNum").textContent;
+    const btn = document.getElementById("copyBtn");
+    navigator.clipboard.writeText(num).then(() => {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2500);
+    }).catch(() => {
+      const ta = document.createElement("textarea");
+      ta.value = num;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2500);
+    });
+  };
+
+  window.contactTelegram = function() {
+    window.open(window._tgLink || "https://t.me/coachfavour321", "_blank");
+  };
+</script>
+
+</body>
+</html>

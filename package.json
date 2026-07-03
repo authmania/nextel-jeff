@@ -1,0 +1,13 @@
+{
+  "name": "glamour",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "firebase-admin": "^12.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
