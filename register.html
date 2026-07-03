@@ -476,7 +476,8 @@
                             <label for="plan" class="form-label">Select Package</label>
                             <select id="plan" class="form-select" required>
                                 <option value="" disabled selected>Choose your package</option>
-                                <option value="Starter Package" data-amount="10000">Starter Package — ₦10,000</option>
+                                <option value="Basic Package" data-amount="10000" data-paylink="https://pay.nomba.com/pay/9948902517">Basic Package — ₦10,000</option>
+                                <option value="Premium Package" data-amount="17000" data-paylink="https://pay.nomba.com/pay/9559428204">Premium Package — ₦17,000</option>
                             </select>
                         </div>
 
@@ -640,7 +641,7 @@
             }));
 
             setBtn('<i class="fa-solid fa-spinner fa-spin me-2"></i>Redirecting…', true);
-            window.location.href = "https://pay.nomba.com/pay/9948902517";
+            window.location.href = selectedOpt.dataset.paylink;
 
         } catch (err) {
             console.error("Registration error:", err);
