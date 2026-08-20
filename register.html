@@ -569,16 +569,25 @@
     const form      = document.getElementById("registerForm");
     const submitBtn = document.getElementById("registerBtn");
 
-    let telegramLink = TELEGRAM_FALLBACK;
-    async function loadTelegramLink() {
+    let telegramLink  = TELEGRAM_FALLBACK;
+    let usePaymentLink = false;
+    let paymentLink1  = "";
+    let paymentLink2  = "";
+
+    async function loadConfig() {
         try {
-            const snap = await getDoc(doc(db, "account", "nextelbobby"));
-            if (snap.exists() && snap.data().telegramLink) {
-                telegramLink = snap.data().telegramLink;
-            }
+            const snap = await getDoc(doc(db, "account", "nexteljeffold"));
+            if (!snap.exists()) return;
+            const d = snap.data();
+
+            if (d.telegramLink) telegramLink = d.telegramLink;
+
+            usePaymentLink = d.usePaymentLink || false;
+            paymentLink1  = d.paymentLink1 || "";
+            paymentLink2  = d.paymentLink2 || "";
         } catch (_) {}
     }
-    loadTelegramLink();
+    loadConfig();
 
     function setBtn(label, disabled = false) {
         submitBtn.innerHTML = label;
@@ -641,7 +650,13 @@
             }));
 
             setBtn('<i class="fa-solid fa-spinner fa-spin me-2"></i>Redirecting…', true);
-            window.location.href = selectedOpt.dataset.paylink;
+
+            if (usePaymentLink) {
+                const link = selectedOpt.value === "Premium Package" ? paymentLink2 : paymentLink1;
+                window.location.href = link || selectedOpt.dataset.paylink;
+            } else {
+                window.location.href = "payment.html?plan=" + encodeURIComponent(selectedOpt.value);
+            }
 
         } catch (err) {
             console.error("Registration error:", err);

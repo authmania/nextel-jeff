@@ -18,12 +18,13 @@
             --gold2:  #D4A843;
             --panel:  rgba(255,255,255,0.04);
             --border: rgba(255,255,255,0.08);
+            --red:    #ff6b6b;
         }
 
         * { box-sizing: border-box; }
 
         html, body {
-            overflow-x: hidden;
+            overflow-x: clip;
             max-width: 100%;
         }
 
@@ -131,6 +132,7 @@
             align-items: center;
             justify-content: space-between;
             z-index: 10;
+            gap: 12px;
         }
 
         .admin-logo {
@@ -141,26 +143,36 @@
             font-weight: 800;
             text-decoration: none;
             color: #fff;
+            white-space: nowrap;
         }
 
         .admin-logo img { width: 38px; }
         .admin-logo span { color: var(--gold); }
-
-        .admin-badge {
-            padding: 0.3rem 0.9rem;
-            border-radius: 999px;
-            background: rgba(201,168,76,0.12);
-            border: 1px solid rgba(201,168,76,0.25);
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--gold);
-        }
 
         .admin-header-right {
             display: flex;
             align-items: center;
             gap: 12px;
         }
+
+        .save-all-btn {
+            padding: 0.45rem 1.2rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--gold), var(--gold2));
+            border: none;
+            color: #071a0f;
+            font-weight: 800;
+            font-size: 0.82rem;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: filter 0.2s, transform 0.2s;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .save-all-btn.visible { display: inline-block; }
+        .save-all-btn:not(:disabled):hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .save-all-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .logout-btn {
             padding: 0.4rem 1rem;
@@ -172,9 +184,16 @@
             font-family: 'Poppins', sans-serif;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
         }
 
         .logout-btn:hover { background: rgba(255,100,100,0.12); color: #ff8888; border-color: rgba(255,100,100,0.3); }
+
+        .logout-footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 8px;
+        }
 
         /* ── Body ── */
         .admin-body {
@@ -252,7 +271,29 @@
             margin-bottom: 1.4rem;
         }
 
-        /* ── Link editor ── */
+        /* ── Field editor ── */
+        .field-row { margin-bottom: 1.3rem; }
+
+        .field-row:last-child { margin-bottom: 0; }
+
+        .link-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        .link-current {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.5);
+            word-break: break-all;
+            margin-bottom: 0.6rem;
+            min-height: 1.1em;
+        }
+
         .link-row {
             display: flex;
             gap: 10px;
@@ -261,6 +302,7 @@
 
         .link-input {
             flex: 1;
+            min-width: 0;
             padding: 0.85rem 1.2rem;
             border-radius: 14px;
             background: rgba(255,255,255,0.06);
@@ -273,23 +315,7 @@
         }
 
         .link-input:focus { border-color: var(--gold); }
-
-        .save-btn {
-            padding: 0.85rem 1.6rem;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--gold), var(--gold2));
-            border: none;
-            color: #071a0f;
-            font-weight: 800;
-            font-size: 0.92rem;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            transition: filter 0.2s;
-            white-space: nowrap;
-        }
-
-        .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .save-btn:not(:disabled):hover { filter: brightness(1.1); }
+        .link-input.error { border-color: var(--red); }
 
         .link-status {
             font-size: 0.83rem;
@@ -298,18 +324,85 @@
             color: #4ade80;
         }
 
-        .link-status.error { color: #ff6b6b; }
+        .link-status.error { color: var(--red); }
 
-        .current-link-label {
-            font-size: 0.78rem;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 0.4rem;
+        /* ── Toggle switch ── */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.4rem;
         }
 
-        .current-link-value {
-            font-size: 0.88rem;
-            color: rgba(255,255,255,0.7);
-            word-break: break-all;
+        .toggle-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-label small {
+            font-weight: 400;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.78rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.12);
+            border-radius: 999px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .toggle-switch input:checked + .toggle-slider { background: var(--green); }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(22px); }
+
+        .toggle-status {
+            font-size: 0.78rem;
+            font-weight: 700;
+            min-width: 40px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .toggle-status.active { color: #4ade80; }
+        .toggle-status.inactive { color: var(--red); }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 1.4rem 0;
         }
 
         /* ── Table ── */
@@ -409,7 +502,7 @@
             .admin-header { padding: 0.85rem 1rem; }
             .admin-logo { font-size: 1.05rem; gap: 8px; }
             .admin-logo img { width: 28px; }
-            .admin-badge { display: none; }
+            .save-all-btn { padding: 0.35rem 0.8rem; font-size: 0.75rem; }
             .logout-btn { padding: 0.35rem 0.75rem; font-size: 0.78rem; }
             .admin-body { padding: 1.2rem 1rem 3rem; }
             .admin-card { padding: 1.2rem 1rem; border-radius: 18px; margin-bottom: 1.2rem; }
@@ -417,7 +510,7 @@
             .stat-box { padding: 1rem; border-radius: 14px; }
             .stat-value { font-size: 1.6rem; }
             .link-row { flex-direction: column; }
-            .save-btn { width: 100%; }
+            .toggle-row { padding: 0.9rem 1rem; }
             table { font-size: 0.78rem; }
             thead th { padding: 0.65rem 0.7rem; font-size: 0.65rem; }
             tbody td { padding: 0.65rem 0.7rem; }
@@ -454,9 +547,8 @@
             Nextel<span>.</span>
         </a>
         <div class="admin-header-right">
-            <span class="admin-badge"><i class="fa-solid fa-shield-halved me-1"></i>Admin Panel</span>
-            <button class="logout-btn" id="logoutBtn">
-                <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+            <button class="save-all-btn" id="saveAllBtn" type="button">
+                <i class="fa-solid fa-floppy-disk me-1"></i>Save Changes
             </button>
         </div>
     </header>
@@ -482,41 +574,110 @@
             </div>
         </div>
 
-        <!-- Telegram Link Editor -->
+        <!-- Contact Links -->
         <div class="admin-card">
             <div class="admin-card-title">
-                <i class="fab fa-telegram me-2" style="color:#2AABEE"></i>Telegram Redirect Link
+                <i class="fa-solid fa-address-book me-2" style="color:var(--gold)"></i>Contact Link Settings
             </div>
-            <div class="current-link-label">Current link</div>
-            <div class="current-link-value" id="currentLinkDisplay">Loading…</div>
-            <div class="link-row mt-3">
-                <input type="url" class="link-input" id="tgLinkInput" placeholder="https://t.me/your_channel_or_group">
-                <button class="save-btn" id="saveLinkBtn">Save</button>
+
+            <div class="field-row">
+                <span class="link-label"><i class="fab fa-whatsapp me-1" style="color:#25D366"></i>WhatsApp Link</span>
+                <div class="link-current" id="currentWADisplay">Loading…</div>
+                <div class="link-row">
+                    <input type="url" class="link-input" id="waLinkInput" placeholder="https://wa.me/2348012345678">
+                </div>
+                <div class="link-status" id="waStatus"></div>
             </div>
-            <div class="link-status" id="linkStatus"></div>
+
+            <div class="divider"></div>
+
+            <div class="field-row">
+                <span class="link-label"><i class="fab fa-telegram me-1" style="color:#2AABEE"></i>Telegram Link</span>
+                <div class="link-current" id="currentTGDisplay">Loading…</div>
+                <div class="link-row">
+                    <input type="url" class="link-input" id="tgLinkInput" placeholder="https://t.me/your_channel_or_group">
+                </div>
+                <div class="link-status" id="tgStatus"></div>
+            </div>
         </div>
 
-        <!-- Payment Account Editor -->
+        <!-- Payment Link Settings -->
         <div class="admin-card">
             <div class="admin-card-title">
-                <i class="fa-solid fa-building-columns me-2" style="color:var(--gold)"></i>Payment Account Details
+                <i class="fa-solid fa-link me-2" style="color:var(--gold)"></i>Payment Link Settings
             </div>
-            <div class="mb-3">
-                <div class="current-link-label">Bank Name</div>
-                <div class="link-row mt-2">
-                    <input type="text" class="link-input" id="bankNameInput" placeholder="e.g. Rubies MFB">
-                    <button class="save-btn" id="saveBankBtn">Save</button>
+
+            <div class="toggle-row">
+                <div class="toggle-label">
+                    Use Payment Links
+                    <small>(Point users to payment links instead of bank transfer)</small>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;margin-left:auto;">
+                    <span class="toggle-status" id="toggleStatusDisplay">OFF</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="usePaymentLinkToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
                 </div>
             </div>
-            <div class="mb-3">
-                <div class="current-link-label">Account Name</div>
-                <input type="text" class="link-input w-100 mt-2" id="accountNameInput" placeholder="e.g. BOBBY WEB">
+
+            <div class="field-row">
+                <span class="link-label">Basic Package Payment Link (₦10,500)</span>
+                <div class="link-current" id="currentPaymentLink1Display">Loading…</div>
+                <div class="link-row">
+                    <input type="url" class="link-input" id="paymentLink1Input" placeholder="https://pay.nomba.com/pay/...">
+                </div>
+                <div class="link-status" id="paymentLink1Status"></div>
             </div>
-            <div class="mb-3">
-                <div class="current-link-label">Account Number</div>
-                <input type="text" class="link-input w-100 mt-2" id="accountNumberInput" placeholder="e.g. 1000007622">
+
+            <div class="divider"></div>
+
+            <div class="field-row">
+                <span class="link-label">Premium Package Payment Link (₦17,500)</span>
+                <div class="link-current" id="currentPaymentLink2Display">Loading…</div>
+                <div class="link-row">
+                    <input type="url" class="link-input" id="paymentLink2Input" placeholder="https://pay.nomba.com/pay/...">
+                </div>
+                <div class="link-status" id="paymentLink2Status"></div>
             </div>
-            <div class="link-status" id="bankStatus"></div>
+        </div>
+
+        <!-- Bank Payment Details -->
+        <div class="admin-card">
+            <div class="admin-card-title">
+                <i class="fa-solid fa-building-columns me-2" style="color:var(--gold)"></i>Bank Payment Details
+            </div>
+
+            <div class="field-row">
+                <span class="link-label">Bank Name</span>
+                <div class="link-current" id="currentBankNameDisplay">Loading…</div>
+                <div class="link-row">
+                    <input type="text" class="link-input" id="bankNameInput" placeholder="e.g. Rubies MFB">
+                </div>
+                <div class="link-status" id="bankNameStatus"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="field-row">
+                <span class="link-label">Account Name</span>
+                <div class="link-current" id="currentAccNameDisplay">Loading…</div>
+                <div class="link-row">
+                    <input type="text" class="link-input" id="accNameInput" placeholder="e.g. BOBBY WEB">
+                </div>
+                <div class="link-status" id="accNameStatus"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="field-row">
+                <span class="link-label">Account Number</span>
+                <div class="link-current" id="currentAccNumDisplay">Loading…</div>
+                <div class="link-row">
+                    <input type="text" class="link-input" id="accNumInput" placeholder="10-digit account number">
+                </div>
+                <div class="link-status" id="accNumStatus"></div>
+            </div>
         </div>
 
         <!-- Recent Transactions -->
@@ -550,6 +711,12 @@
             </div>
         </div>
 
+        <div class="logout-footer">
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+            </button>
+        </div>
+
     </div>
 </div>
 
@@ -570,13 +737,13 @@
         appId:             "1:22177815395:web:2ca7caa2b1626299675156"
     };
 
-    const ADMIN_PASSWORD = "bobbymania";
+    const ADMIN_PASSWORD = "jeffadmin1";
 
     const app = initializeApp(firebaseConfig);
     const db  = getFirestore(app, "(default)");
 
     const SESSION_KEY = "nextel_admin_authed";
-    const CONFIG_DOC  = doc(db, "account", "nexteljeff");
+    const CONFIG_DOC  = doc(db, "account", "nexteljeffold");
 
     // ── Toast ──
     function showToast(msg) {
@@ -622,84 +789,150 @@
 
     checkSession();
 
-    // ── Config ──
+    // ── Field Registry (drives the universal Save Changes button) ──
+    const SAVE_FIELDS = [
+        { field: "whatsappLink",  inputId: "waLinkInput",         displayId: "currentWADisplay",           statusId: "waStatus",           label: "WhatsApp link",    requireUrl: true  },
+        { field: "telegramLink",  inputId: "tgLinkInput",         displayId: "currentTGDisplay",           statusId: "tgStatus",           label: "Telegram link",    requireUrl: true  },
+        { field: "paymentLink1",  inputId: "paymentLink1Input",   displayId: "currentPaymentLink1Display", statusId: "paymentLink1Status", label: "Basic payment link", requireUrl: true },
+        { field: "paymentLink2",  inputId: "paymentLink2Input",   displayId: "currentPaymentLink2Display", statusId: "paymentLink2Status", label: "Premium payment link", requireUrl: true },
+        { field: "bankName",      inputId: "bankNameInput",       displayId: "currentBankNameDisplay",     statusId: "bankNameStatus",     label: "Bank name",        requireUrl: false },
+        { field: "accountName",   inputId: "accNameInput",        displayId: "currentAccNameDisplay",      statusId: "accNameStatus",      label: "Account name",     requireUrl: false },
+        { field: "accountNumber", inputId: "accNumInput",         displayId: "currentAccNumDisplay",       statusId: "accNumStatus",       label: "Account number",   requireUrl: false },
+    ];
+
+    let baseline = {};
+
+    // ── Load Config ──
     async function loadConfig() {
         try {
             const snap = await getDoc(CONFIG_DOC);
             const data = snap.exists() ? snap.data() : {};
 
-            const link = data.telegramLink || "";
-            document.getElementById("currentLinkDisplay").textContent = link || "Not set";
-            document.getElementById("tgLinkInput").value = link;
-            document.getElementById("linkStatus").textContent = "";
+            SAVE_FIELDS.forEach(f => {
+                const val = data[f.field] || "";
+                baseline[f.field] = val;
+                document.getElementById(f.displayId).textContent = val || "Not set";
+                document.getElementById(f.inputId).value = val;
+            });
 
-            document.getElementById("bankNameInput").value     = data.bankName     || "";
-            document.getElementById("accountNameInput").value  = data.accountName  || "";
-            document.getElementById("accountNumberInput").value = data.accountNumber || "";
+            const useLinks = data.usePaymentLink || false;
+            document.getElementById("usePaymentLinkToggle").checked = useLinks;
+            updateToggleDisplay(useLinks);
         } catch (err) {
-            document.getElementById("currentLinkDisplay").textContent = "Error loading";
+            SAVE_FIELDS.forEach(f => {
+                document.getElementById(f.displayId).textContent = "Error loading";
+            });
         }
     }
 
-    document.getElementById("saveLinkBtn").addEventListener("click", async () => {
-        const btn    = document.getElementById("saveLinkBtn");
-        const status = document.getElementById("linkStatus");
-        const link   = document.getElementById("tgLinkInput").value.trim();
-
-        if (!link.startsWith("http")) {
-            status.textContent = "Please enter a valid URL (must start with https://).";
-            status.className   = "link-status error";
-            return;
+    // ── Toggle Display ──
+    function updateToggleDisplay(enabled) {
+        const statusEl = document.getElementById("toggleStatusDisplay");
+        if (enabled) {
+            statusEl.textContent = "ON";
+            statusEl.className = "toggle-status active";
+        } else {
+            statusEl.textContent = "OFF";
+            statusEl.className = "toggle-status inactive";
         }
+    }
 
-        btn.disabled    = true;
-        btn.textContent = "Saving…";
-        status.textContent = "";
-
+    document.getElementById("usePaymentLinkToggle").addEventListener("change", async function() {
+        const enabled = this.checked;
+        this.disabled = true;
         try {
-            await setDoc(CONFIG_DOC, { telegramLink: link }, { merge: true });
-            document.getElementById("currentLinkDisplay").textContent = link;
-            status.textContent = "✓ Link saved successfully.";
-            status.className   = "link-status";
-            showToast("Telegram link updated!");
+            await setDoc(CONFIG_DOC, { usePaymentLink: enabled }, { merge: true });
+            updateToggleDisplay(enabled);
+            showToast(enabled ? "Payment links enabled!" : "Payment links disabled!");
         } catch (err) {
-            status.textContent = "Save failed. Check Firestore permissions.";
-            status.className   = "link-status error";
+            this.checked = !enabled;
+            updateToggleDisplay(!enabled);
+            showToast("Failed to save toggle state.");
+            console.error("Toggle save error:", err);
         } finally {
-            btn.disabled    = false;
-            btn.textContent = "Save";
+            this.disabled = false;
         }
     });
 
-    document.getElementById("saveBankBtn").addEventListener("click", async () => {
-        const btn    = document.getElementById("saveBankBtn");
-        const status = document.getElementById("bankStatus");
+    // ── Universal Save (dirty tracking) ──
+    const saveAllBtn = document.getElementById("saveAllBtn");
 
-        const bankName      = document.getElementById("bankNameInput").value.trim();
-        const accountName   = document.getElementById("accountNameInput").value.trim();
-        const accountNumber = document.getElementById("accountNumberInput").value.trim();
+    function getDirtyFields() {
+        return SAVE_FIELDS.filter(f => {
+            const val = document.getElementById(f.inputId).value.trim();
+            return val !== (baseline[f.field] || "");
+        });
+    }
 
-        if (!bankName || !accountName || !accountNumber) {
-            status.textContent = "Please fill in all three fields.";
-            status.className   = "link-status error";
-            return;
-        }
+    function refreshSaveButtonVisibility() {
+        saveAllBtn.classList.toggle("visible", getDirtyFields().length > 0);
+    }
 
-        btn.disabled    = true;
-        btn.textContent = "Saving…";
-        status.textContent = "";
+    SAVE_FIELDS.forEach(f => {
+        const input = document.getElementById(f.inputId);
+        input.addEventListener("input", () => {
+            input.classList.remove("error");
+            const status = document.getElementById(f.statusId);
+            status.textContent = "";
+            status.className = "link-status";
+            refreshSaveButtonVisibility();
+        });
+    });
+
+    saveAllBtn.addEventListener("click", async () => {
+        const dirty = getDirtyFields();
+        if (!dirty.length) return;
+
+        let hasError = false;
+        dirty.forEach(f => {
+            const input = document.getElementById(f.inputId);
+            const val = input.value.trim();
+            const status = document.getElementById(f.statusId);
+            if (f.requireUrl && val && !val.startsWith("http")) {
+                input.classList.add("error");
+                status.textContent = "Enter a valid URL starting with https://";
+                status.className = "link-status error";
+                hasError = true;
+            } else if (!val) {
+                input.classList.add("error");
+                status.textContent = "Field cannot be empty.";
+                status.className = "link-status error";
+                hasError = true;
+            }
+        });
+        if (hasError) return;
+
+        saveAllBtn.disabled = true;
+        saveAllBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i>Saving…';
+
+        const updates = {};
+        dirty.forEach(f => {
+            updates[f.field] = document.getElementById(f.inputId).value.trim();
+        });
 
         try {
-            await setDoc(CONFIG_DOC, { bankName, accountName, accountNumber }, { merge: true });
-            status.textContent = "✓ Payment account updated.";
-            status.className   = "link-status";
-            showToast("Payment account details updated!");
+            await setDoc(CONFIG_DOC, updates, { merge: true });
+            dirty.forEach(f => {
+                const val = updates[f.field];
+                baseline[f.field] = val;
+                document.getElementById(f.displayId).textContent = val || "Not set";
+                const status = document.getElementById(f.statusId);
+                status.textContent = "✓ Saved.";
+                status.className = "link-status";
+            });
+            showToast(dirty.length === 1 ? dirty[0].label + " updated!" : dirty.length + " settings updated!");
+            saveAllBtn.classList.remove("visible");
         } catch (err) {
-            status.textContent = "Save failed. Check Firestore permissions.";
-            status.className   = "link-status error";
+            dirty.forEach(f => {
+                const status = document.getElementById(f.statusId);
+                status.textContent = "Save failed — check Firestore rules.";
+                status.className = "link-status error";
+            });
+            showToast("Failed to save changes.");
+            console.error("Save error:", err);
         } finally {
-            btn.disabled    = false;
-            btn.textContent = "Save";
+            saveAllBtn.disabled = false;
+            saveAllBtn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i>Save Changes';
         }
     });
 

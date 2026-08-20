@@ -241,7 +241,13 @@ body{
       <strong>After payment, send your proof of transfer</strong> to our support team and your account will be activated within <strong>5–15 minutes</strong>.
     </div>
 
-    <div style="margin-top:16px;">
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+      <button class="contact-btn whatsapp" style="width:100%;" onclick="contactWhatsApp()">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.04 2C6.51 2 2 4.35 2 7.57c0 1.95 1.22 3.68 3.08 4.83-.14.8-.51 1.93-.87 2.67l-.28.57.65-.28c1.24-.53 2.08-.93 2.68-1.21.74.31 1.55.48 2.41.48h.18c2.35-.16 4.36-1.16 5.67-2.82 1.32-1.66 2.04-3.79 2.04-6.07C17.56 4.35 14.19 2 12.04 2zm5.83 8.03c-.86 1.08-2.04 1.93-3.39 2.44-1.35.51-2.8.76-4.38.76-.77 0-1.52-.1-2.23-.3l-1.06-.32-.8.32c.08-.03.17-.05.26-.08.69-.23 1.9-.65 2.15-.72.04-.01.09 0 .13.05.33.37.7.67 1.11.9.33.18.71.32 1.11.4.4.09.81.12 1.23.08.42-.04.83-.14 1.22-.31.39-.17.75-.39 1.07-.66.32-.27.6-.58.84-.93.23-.35.42-.73.55-1.13.13-.4.2-.81.21-1.23.01-.43-.05-.85-.18-1.25-.13-.4-.33-.77-.58-1.1a4.03 4.03 0 0 0-.86-.87c-.33-.25-.69-.45-1.07-.59-.38-.14-.78-.22-1.18-.23-.4-.01-.81.04-1.19.15l-1.13.28-.13 1.12a7.6 7.6 0 0 0-.36 1.52c-.04.32-.03.65.05.97.08.31.2.61.38.88l.16.25-.12.26a2.24 2.24 0 0 1-.44.7c.08.08.16.15.24.22l.03.03a2.9 2.9 0 0 0 1.35.67c.09.02.18.03.26.05.12.02.25.02.37.01h.27c.1-.01.23-.06.42-.14.04-.02.1-.04.2-.1.19-.09.39-.18.57-.29.18-.1.35-.22.51-.35.15-.13.28-.27.39-.43l.13-.19c.03-.05.08-.1.1-.15.05-.1.02-.22-.03-.3-.04-.07-.16-.19-.25-.28-.12-.13-.23-.26-.33-.4-.1-.14-.19-.28-.26-.44a1.8 1.8 0 0 1-.11-.56c0-.09.02-.17.06-.25.02-.04.03-.08.04-.12a3.1 3.1 0 0 1 .8-1.22c.03-.03.05-.06.08-.08.12-.11.25-.21.39-.3.13-.08.27-.15.42-.21.15-.06.3-.1.45-.14.15-.03.31-.05.46-.06.16-.01.31 0 .46.02.15.02.3.05.44.1.15.04.28.1.41.17.13.07.25.15.37.24l.1.07c.08.06.17.11.25.18.08.06.15.13.22.2.14.14.27.29.39.45.12.17.22.34.3.53.09.18.16.38.22.57.05.2.08.4.1.61.01.1.02.19.02.29.01.3-.03.6-.1.9zM12.04 8.6c-.01 0-.01 0 0 0z" fill="#fff"/>
+        </svg>
+        Send Proof on WhatsApp
+      </button>
       <button class="contact-btn telegram" style="width:100%;" onclick="contactTelegram()">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M21.946 2.68a1.5 1.5 0 0 0-1.531-.21L2.33 9.607a1.5 1.5 0 0 0 .104 2.803l4.02 1.342 1.97 6.072a1 1 0 0 0 1.7.377l2.44-2.55 4.69 3.49a1.5 1.5 0 0 0 2.35-1.01L22 4.156a1.5 1.5 0 0 0-.054-1.476zM10 13.5l-1.3 3.9-1.3-4 8.6-5.9L10 13.5z" fill="#fff"/>
@@ -275,10 +281,11 @@ body{
 
   // Load config from Firestore
   try {
-    const snap = await getDoc(doc(db, "account", "nextelbobby"));
+    const snap = await getDoc(doc(db, "account", "nexteljeffold"));
     if (snap.exists()) {
       const d = snap.data();
       if (d.telegramLink)  window._tgLink = d.telegramLink;
+      if (d.whatsappLink)  window._waLink = d.whatsappLink;
       document.getElementById("bankNameVal").textContent   = d.bankName     || "—";
       document.getElementById("accountNameVal").textContent = d.accountName  || "—";
       document.getElementById("accountNum").textContent    = d.accountNumber || "—";
@@ -317,6 +324,12 @@ body{
 
   window.contactTelegram = function() {
     window.open(window._tgLink || "https://t.me/coachfavour321", "_blank");
+  };
+
+  window.contactWhatsApp = function() {
+    const wa = window._waLink || "https://wa.me/2340000000000";
+    const txt = "Hello Admin!%0A%0AI have just made my payment for the NEXTEL Registration.%0A%0APlease confirm my payment";
+    window.open(wa + (wa.includes("?") ? "&" : "?") + "text=" + txt, "_blank");
   };
 </script>
 
